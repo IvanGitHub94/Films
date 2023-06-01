@@ -13,6 +13,6 @@ public class SpringLibraryProjectApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("Swagger path: http://localhost:8081/swagger-ui/index.html#/");
+        System.out.println("Путь к проекту (Swagger): http://localhost:8081/swagger-ui/index.html#/");
     }
 }
