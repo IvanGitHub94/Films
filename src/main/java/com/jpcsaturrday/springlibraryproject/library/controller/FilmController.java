@@ -1,10 +1,8 @@
 package com.jpcsaturrday.springlibraryproject.library.controller;
 
-import com.jpcsaturrday.springlibraryproject.library.model.Director;
+import com.jpcsaturrday.springlibraryproject.library.dto.FilmDTO;
 import com.jpcsaturrday.springlibraryproject.library.model.Film;
-import com.jpcsaturrday.springlibraryproject.library.repository.DirectorRepository;
-import com.jpcsaturrday.springlibraryproject.library.repository.FilmRepository;
-import com.jpcsaturrday.springlibraryproject.library.repository.GenericRepositoryF;
+import com.jpcsaturrday.springlibraryproject.library.service.FilmService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
@@ -14,9 +12,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.webjars.NotFoundException;
 
 @RestController
+@RequestMapping("/films") // http://localhost:8081/swagger-ui/index.html#/films
+@Tag(name = "Фильмы",
+        description = "Контроллер для работы с фильмами")
+public class FilmController
+        extends GenericControllerF<Film, FilmDTO> {
+    public FilmController(FilmService filmService) {
+        super(filmService);
+    }
+
+    @Operation(description = "Добавить фильм к режиссеру")
+    @RequestMapping(value = "/addDirector", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<FilmDTO> addDirector(@RequestParam(value = "filmId") Long filmId,
+                                             @RequestParam(value = "directorId") Long directorId) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(((FilmService) service).addDirector(filmId, directorId));
+    }
+}
+
+/*@RestController
 @RequestMapping("/films") // http://localhost:8081/swagger-ui/index.html#/films
 @Tag(name = "Фильмы",
         description = "Контроллер для работы с фильмами")
@@ -47,4 +63,4 @@ public class FilmController extends GenericControllerF<Film> {
         film.getDirectors().add(director);
         return ResponseEntity.status(HttpStatus.OK).body(filmRepository.save(film));
     }
-}
+}*/
