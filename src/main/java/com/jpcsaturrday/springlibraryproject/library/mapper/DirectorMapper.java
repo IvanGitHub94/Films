@@ -14,8 +14,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
-public class DirectorMapper
-        extends GenericMapperF<Director, DirectorDTO> {
+public class DirectorMapper extends GenericMapperF<Director, DirectorDTO> {
 
     private final FilmRepository filmRepository;
 

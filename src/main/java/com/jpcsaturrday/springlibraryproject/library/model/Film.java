@@ -1,5 +1,6 @@
 package com.jpcsaturrday.springlibraryproject.library.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,7 +22,7 @@ public class Film extends GenericModelF {
 
     @Column(name = "genre", nullable = false)
     @Enumerated
-    private GenreF genre;
+    private Genre genre;
 
     @Column(name = "premiere_year", nullable = false)
     private LocalDate premiereDate;
@@ -29,7 +30,8 @@ public class Film extends GenericModelF {
     @Column(name = "country")
     private String country;
 
-    @ManyToMany
+    @JsonIgnore
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "films_directors",
             joinColumns = @JoinColumn(name = "film_id"), foreignKey = @ForeignKey(name = "FK_FILMS_DIRECTORS"),
             inverseJoinColumns = @JoinColumn(name = "director_id"), inverseForeignKey = @ForeignKey(name = "FK_DIRECTORS_FILMS"))

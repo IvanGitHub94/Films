@@ -48,11 +48,11 @@ public class UserF extends GenericModelF {
     @Column(name = "address", nullable = false)
     private String address;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id", nullable = false,
             foreignKey = @ForeignKey(name = "FK_USERS_ROLE"))
     private RoleF role;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Orders> orders;
 }

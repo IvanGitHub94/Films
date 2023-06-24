@@ -1,10 +1,11 @@
 package com.jpcsaturrday.springlibraryproject.library.dto;
 
-import com.jpcsaturrday.springlibraryproject.library.model.GenreF;
+import com.jpcsaturrday.springlibraryproject.library.model.Genre;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.lang.Nullable;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,8 +16,10 @@ import java.util.List;
 @NoArgsConstructor
 public class FilmDTO extends GenericFDTO{
     private String filmTitle;
-    private GenreF genre;
+    private Genre genre;
     private LocalDate premiereDate;
     private String country;
     private List<Long> directorIds;
+    @Nullable
+    private DirectorDTO directorDTO;
 }

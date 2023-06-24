@@ -1,8 +1,7 @@
-package com.jpcsaturrday.springlibraryproject.library.controller;
+package com.jpcsaturrday.springlibraryproject.library.controllers.rest;
 
 import com.jpcsaturrday.springlibraryproject.library.dto.GenericFDTO;
 import com.jpcsaturrday.springlibraryproject.library.model.GenericModelF;
-import com.jpcsaturrday.springlibraryproject.library.repository.GenericRepositoryF;
 import com.jpcsaturrday.springlibraryproject.library.service.GenericServiceF;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;

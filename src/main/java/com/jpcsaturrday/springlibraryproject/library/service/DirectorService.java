@@ -6,14 +6,21 @@ import com.jpcsaturrday.springlibraryproject.library.model.Director;
 import com.jpcsaturrday.springlibraryproject.library.model.Film;
 import com.jpcsaturrday.springlibraryproject.library.repository.DirectorRepository;
 import com.jpcsaturrday.springlibraryproject.library.repository.FilmRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DirectorService
         extends GenericServiceF<Director, DirectorDTO> {
 
     private final FilmRepository filmRepository;
+
+    @Autowired
+    private DirectorRepository directorRepository;
 
 
     public DirectorService(DirectorRepository repository,
@@ -30,5 +37,11 @@ public class DirectorService
         director.getFilmIds().add(film.getId());
         update(director);
         return director;
+    }
+
+    public List<DirectorDTO> findAll() {
+        return directorRepository.findAll().stream()
+                .map(this.mapper::toDTO)
+                .collect(Collectors.toList());
     }
 }

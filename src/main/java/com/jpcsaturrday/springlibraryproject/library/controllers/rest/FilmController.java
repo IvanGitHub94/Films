@@ -1,4 +1,4 @@
-package com.jpcsaturrday.springlibraryproject.library.controller;
+package com.jpcsaturrday.springlibraryproject.library.controllers.rest;
 
 import com.jpcsaturrday.springlibraryproject.library.dto.FilmDTO;
 import com.jpcsaturrday.springlibraryproject.library.model.Film;

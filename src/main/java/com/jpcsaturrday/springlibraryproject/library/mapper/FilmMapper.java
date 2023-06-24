@@ -27,9 +27,15 @@ public class FilmMapper
     @Override
     public void setupMapper() {
         modelMapper.createTypeMap(Film.class, FilmDTO.class)
-                .addMappings(m -> m.skip(FilmDTO::setDirectorIds)).setPostConverter(toDTOConverter());
+                //.addMappings(m -> m.skip(FilmDTO::setDirectorIds)).setPostConverter(toDTOConverter());
+                .addMappings(mapping -> {
+                            mapping.skip(FilmDTO::setDirectorIds);
+                        }
+                )
+                .setPostConverter(toDTOConverter());
         modelMapper.createTypeMap(FilmDTO.class, Film.class)
-                .addMappings(m -> m.skip(Film::setDirectors)).setPostConverter(toEntityConverter());
+                //.addMappings(m -> m.skip(Film::setDirectors)).setPostConverter(toEntityConverter());
+                .addMappings(mapping -> mapping.skip(Film::setDirectors)).setPostConverter(toEntityConverter());
     }
 
     @Override
