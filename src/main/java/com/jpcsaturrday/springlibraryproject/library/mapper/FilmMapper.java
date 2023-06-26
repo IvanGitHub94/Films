@@ -1,6 +1,8 @@
 package com.jpcsaturrday.springlibraryproject.library.mapper;
 
+import com.jpcsaturrday.springlibraryproject.library.dto.DirectorDTO;
 import com.jpcsaturrday.springlibraryproject.library.dto.FilmDTO;
+import com.jpcsaturrday.springlibraryproject.library.model.Director;
 import com.jpcsaturrday.springlibraryproject.library.model.Film;
 import com.jpcsaturrday.springlibraryproject.library.model.GenericModelF;
 import com.jpcsaturrday.springlibraryproject.library.repository.DirectorRepository;
@@ -8,19 +10,19 @@ import jakarta.annotation.PostConstruct;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
 public class FilmMapper
         extends GenericMapperF<Film, FilmDTO> {
     private final DirectorRepository directorRepository;
+    private final DirectorMapper directorMapper;
 
-    protected FilmMapper(ModelMapper mapper, DirectorRepository directorRepository) {
+    protected FilmMapper(ModelMapper mapper, DirectorRepository directorRepository, DirectorMapper directorMapper) {
         super(Film.class, FilmDTO.class, mapper);
         this.directorRepository = directorRepository;
+        this.directorMapper = directorMapper;
     }
 
     @PostConstruct
@@ -61,4 +63,29 @@ public class FilmMapper
                 .map(GenericModelF::getId)
                 .collect(Collectors.toList());
     }
+
+
+    public FilmDTO toDto(Film film) {
+        FilmDTO dto = new FilmDTO();
+        dto.setCountry(film.getCountry());
+        dto.setFilmTitle(film.getFilmTitle());
+        dto.setGenre(film.getGenre());
+        dto.setPremiereDate(film.getPremiereDate());
+
+        dto.setDirectorDTO(directorMapper.toDTO(film.getDirectors().get(0)));
+        return dto;
+    }
+
+    public Film toEntity(FilmDTO filmDTO) {
+        Film film = new Film();
+        film.setFilmTitle(filmDTO.getFilmTitle());
+        film.setCountry(filmDTO.getCountry());
+        film.setGenre(filmDTO.getGenre());
+        film.setPremiereDate(filmDTO.getPremiereDate());
+        List<Director> directors = new ArrayList<>();
+        directors.add(directorMapper.toEntity(filmDTO.getDirectorDTO()));
+        film.setDirectors(directors);
+        return film;
+    }
+
 }

@@ -10,7 +10,8 @@
       color: red;
     }
   </style>
-  <script src="/static/js/add-director-to-film.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="/js/add-director-to-film.js"></script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -39,14 +40,15 @@
     <tbody>
     <tr th:each="film : ${films}">
       <td th:text="${film.getFilmTitle()}"></td>
-      <td th:if="${film.directorDTO != null}" th:text="${film.directorDTO.directorFio}"></td>
-      <td th:if="${film.directorDTO == null}">
+      <td th:if="${film.directorDTO.directorFio != ''}" th:text="${film.directorDTO.directorFio}"></td>
+      <td th:if="${film.directorDTO.directorFio == ''}">
         <div class="btn btn-primary add-director">Добавить режиссёра</div>
-        <form style="max-width: 50vw, visibility: hidden" method="POST" th:action="@{/films/add-director}" th:object="${director}">
-          <select class="form-select" name="directors" id="directors">
-            <option selected>Выберите режиссёра:</option>
-            <option th:each="director : ${allDirectors}"
-                    th:value="${director.directorFio}" th:text="${director.directorFio}"></option>
+        <form style="max-width: 50vw" hidden method="POST" th:action="@{/films/add-director}" th:object="${filmWithDirector}">
+
+          <label for="directors">Выберите режиссёра:</label>
+          <input class="form-control" type="text" hidden name="filmTitle" th:value="${film.filmTitle}"/>
+          <select class="form-select" name="directorFio" id="directors">
+            <option th:each="director : ${directors}" th:text="${director.directorFio}"></option>
           </select>
           <button type="submit">Добавить</button>
         </form>

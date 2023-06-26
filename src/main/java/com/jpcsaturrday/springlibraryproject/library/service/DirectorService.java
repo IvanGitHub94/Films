@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,5 +44,13 @@ public class DirectorService
         return directorRepository.findAll().stream()
                 .map(this.mapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    public Optional<Director> findByFio(String directorFio) {
+        List<Director> existingDirectors = directorRepository.findByDirectorFio(directorFio);
+        if (existingDirectors.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(existingDirectors.get(0));
     }
 }

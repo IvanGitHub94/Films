@@ -20,6 +20,5 @@ public class FilmDTO extends GenericFDTO{
     private LocalDate premiereDate;
     private String country;
     private List<Long> directorIds;
-    @Nullable
-    private DirectorDTO directorDTO;
+    private DirectorDTO directorDTO = new DirectorDTO("", "");
 }

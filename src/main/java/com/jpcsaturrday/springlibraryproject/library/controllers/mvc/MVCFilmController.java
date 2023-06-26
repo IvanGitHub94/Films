@@ -1,6 +1,8 @@
 package com.jpcsaturrday.springlibraryproject.library.controllers.mvc;
 
 import com.jpcsaturrday.springlibraryproject.library.dto.FilmDTO;
+import com.jpcsaturrday.springlibraryproject.library.model.FIlmTitleAndDirectorFio;
+import com.jpcsaturrday.springlibraryproject.library.model.Film;
 import com.jpcsaturrday.springlibraryproject.library.service.DirectorService;
 import com.jpcsaturrday.springlibraryproject.library.service.FilmService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -40,6 +43,16 @@ public class MVCFilmController {
     public String create(@ModelAttribute("filmForm") FilmDTO newFilm) {
         log.info(newFilm.toString());
         filmService.create(newFilm);
+        return "redirect:/films";
+    }
+
+    @PostMapping("/add-director")
+    public String addDirector(@ModelAttribute("filmWithDirector") FIlmTitleAndDirectorFio fIlmTitleAndDirectorFio) {
+        filmService.findByFilmTitle(fIlmTitleAndDirectorFio.getFilmTitle())
+                .ifPresent(film -> {
+                    directorService.findByFio(fIlmTitleAndDirectorFio.getDirectorFio()).ifPresent(director ->
+                        filmService.updateDirector(film, director));
+                });
         return "redirect:/films";
     }
 }

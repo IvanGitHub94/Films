@@ -13,6 +13,5 @@ import org.springframework.data.repository.NoRepositoryBean;
  * @param <T> - Сущность с которой работает репозиторий
  */
 @NoRepositoryBean
-public interface GenericRepositoryF<T extends GenericModelF>
-        extends JpaRepository<T, Long> {
+public interface GenericRepositoryF<T extends GenericModelF> extends JpaRepository<T, Long> {
 }

@@ -1,6 +1,9 @@
-document.querySelectorAll("add-director").forEach(button => {
+$(document).ready(function() {
+document.querySelectorAll(".add-director").forEach(button => {
     button.addEventListener("click", event => {
-        let form = event.target.nextSibling;
-        form.setStyle("visibility: visible");
+        let form = event.target.nextElementSibling;
+        form.removeAttribute("hidden");
+        button.remove();
     });
-})
+});
+});

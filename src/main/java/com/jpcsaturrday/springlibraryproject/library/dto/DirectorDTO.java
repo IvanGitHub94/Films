@@ -1,10 +1,8 @@
 package com.jpcsaturrday.springlibraryproject.library.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ToString
@@ -16,4 +14,10 @@ public class DirectorDTO extends GenericFDTO{
     //private LocalDate birthDate;
     private String position;
     private List<Long> filmIds;
+
+    public DirectorDTO (String directorFio, String position) {
+        this.directorFio = directorFio;
+        this.position = position;
+        this.filmIds = new ArrayList<>();
+    }
 }

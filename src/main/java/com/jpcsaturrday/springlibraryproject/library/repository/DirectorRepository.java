@@ -12,5 +12,7 @@ public interface DirectorRepository extends GenericRepositoryF<Director> {
 
     public List<Director> findByPosition(String position);
 
+    public List<Director> findByDirectorFio(String fio);
+
     public List<Director> findAll();
 }
