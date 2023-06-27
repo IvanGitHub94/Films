@@ -65,14 +65,15 @@ public class FilmMapper
     }
 
 
-    public FilmDTO toDto(Film film) {
+    public FilmDTO toDTO(Film film) {
         FilmDTO dto = new FilmDTO();
         dto.setCountry(film.getCountry());
         dto.setFilmTitle(film.getFilmTitle());
         dto.setGenre(film.getGenre());
         dto.setPremiereDate(film.getPremiereDate());
-
-        dto.setDirectorDTO(directorMapper.toDTO(film.getDirectors().get(0)));
+        if(!film.getDirectors().isEmpty()) {
+            dto.setDirectorDTO(directorMapper.toDTO(film.getDirectors().get(0)));
+        }
         return dto;
     }
 

@@ -1,4 +1,5 @@
 <div xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
      th:fragment="header">
   <nav class="navbar navbar-expand-lg" style="background-color: #b84f3c">
     <div class="container-fluid">
@@ -23,7 +24,10 @@
         <div>
           <a class="nav-link active" style="float: right" href="/profile">Профиль</a>
         </div>
-        <form class="d-flex">
+        <form class="d-flex" sec:authorize="!isAuthenticated()">
+          <a href="/login" class="btn btn-primary" role="button" aria-disabled="true">Войти</a>
+        </form>
+        <form class="d-flex"  sec:authorize="isAuthenticated()">
           <a href="/logout" class="btn btn-primary" role="button" aria-disabled="true">Выйти</a>
         </form>
       </div>
