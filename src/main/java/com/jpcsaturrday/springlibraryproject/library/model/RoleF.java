@@ -3,6 +3,7 @@ package com.jpcsaturrday.springlibraryproject.library.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLInsert;
 
 @Entity
 @Table(name = "role")

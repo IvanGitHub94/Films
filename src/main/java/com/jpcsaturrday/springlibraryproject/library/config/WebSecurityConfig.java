@@ -1,5 +1,6 @@
 package com.jpcsaturrday.springlibraryproject.library.config;
 
+import com.jpcsaturrday.springlibraryproject.library.service.auth.CustomAuthenticationSuccessHandler;
 import com.jpcsaturrday.springlibraryproject.library.service.userDetails.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -21,15 +22,25 @@ public class WebSecurityConfig {
 
     CustomUserDetailsService customUserDetailsService;
     BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private CustomAuthenticationSuccessHandler authenticationSuccessHandler;
 
     public WebSecurityConfig(CustomUserDetailsService customUserDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.customUserDetailsService = customUserDetailsService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
+    private final List<String> RESOURCES_WHITE_LIST = List.of(
+            "/resources/**",
+            "/static/**",
+            "/css/**",
+            "/js/**",
+            "/swagger-ui/**",
+            "/"
+    );
     private final List<String> FILMS_WHITE_LIST = List.of("/films");
 
-    private final List<String> USER_PERMISSIONS_LIST = List.of(
+    private final List<String> FILMS_PERMISSIONS_LIST = List.of(
             "/films/add",
             "/films/update",
             "/films/delete",
@@ -54,9 +65,10 @@ public class WebSecurityConfig {
                 .csrf().disable()
                 //Настройка http-запросов - кому / куда, можно / нельзя
                 .authorizeHttpRequests((request) -> request
+                        .requestMatchers(RESOURCES_WHITE_LIST.toArray(String[]::new)).permitAll()
                         .requestMatchers(FILMS_WHITE_LIST.toArray(String[]::new)).permitAll()
                         .requestMatchers(USER_WHITE_LIST.toArray(String[]::new)).permitAll()
-                        .requestMatchers(USER_PERMISSIONS_LIST.toArray(String[]::new)).hasAnyRole(ADMIN)
+                        .requestMatchers(FILMS_PERMISSIONS_LIST.toArray(String[]::new)).hasAnyRole(ADMIN)
                         .requestMatchers(FILMS_ADMIN_LIST.toArray(String[]::new)).hasAnyRole(ADMIN)
                         .anyRequest().authenticated()
                 )
@@ -64,7 +76,7 @@ public class WebSecurityConfig {
                 .formLogin((form) -> form
                         .loginPage("/login")
                         //перенаправление после успешного логина
-                        .defaultSuccessUrl("/")
+                        .successHandler(authenticationSuccessHandler)
                         .permitAll()
                 )
                 .logout((logout) -> logout

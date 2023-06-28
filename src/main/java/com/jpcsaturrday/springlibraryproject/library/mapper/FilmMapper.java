@@ -65,6 +65,7 @@ public class FilmMapper
     }
 
 
+    @Override
     public FilmDTO toDTO(Film film) {
         FilmDTO dto = new FilmDTO();
         dto.setCountry(film.getCountry());
@@ -77,6 +78,7 @@ public class FilmMapper
         return dto;
     }
 
+    @Override
     public Film toEntity(FilmDTO filmDTO) {
         Film film = new Film();
         film.setFilmTitle(filmDTO.getFilmTitle());
@@ -84,7 +86,11 @@ public class FilmMapper
         film.setGenre(filmDTO.getGenre());
         film.setPremiereDate(filmDTO.getPremiereDate());
         List<Director> directors = new ArrayList<>();
-        directors.add(directorMapper.toEntity(filmDTO.getDirectorDTO()));
+        // Некрасиво, но пока работает
+            if(!filmDTO.getDirectorDTO().getDirectorFio().equals("") &&
+                    !filmDTO.getDirectorDTO().getPosition().equals("")) {
+                directors.add(directorMapper.toEntity(filmDTO.getDirectorDTO()));
+            }
         film.setDirectors(directors);
         return film;
     }

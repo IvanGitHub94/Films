@@ -23,7 +23,6 @@ public class DirectorService
     @Autowired
     private DirectorRepository directorRepository;
 
-
     public DirectorService(DirectorRepository repository,
                            DirectorMapper directorMapper,
                            FilmRepository filmRepository) {
